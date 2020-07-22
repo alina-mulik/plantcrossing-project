@@ -1,2 +1,3 @@
 # plantcrossing-project
-This is my first project made during the course on TeachMeSkills Academy. 
+This is my first project made during the course on TeachMeSkills Academy.
+https://plantcrossing.herokuapp.com/ 
