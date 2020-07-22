@@ -1,0 +1,134 @@
+body {
+		background-color: whitesmoke;
+		min-height: 100%;
+	}
+	.navigation {
+		font-family: FreeMono, monospace;
+		background-color: darkgrey;
+		height: 50px;
+	}
+nav {
+  display: table;
+  margin: 0 auto;
+}
+nav ul {
+  list-style: none;
+}
+.topmenu:after {
+  display: table;
+  clear: both;
+}
+.topmenu > li {
+  float: left;
+  position: relative;
+  top: 0px;
+  font-family: FreeMono, monospace;
+}
+.topmenu > li > a {
+  text-transform: uppercase;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  color: black;
+  padding: 5px 50px;
+}
+.topmenu li a:hover { color: palegoldenrod; }
+.submenu-link1:after {
+  content: "";
+  font-family: FreeMono, monospace;
+  color: inherit;
+  margin-left: 15px;
+}
+.submenu1 {
+  background: gray;
+  position: relative;
+  left: 15%;
+  top: 100%;
+  z-index: 5;
+  width: 175px;
+  opacity: 0;
+  transform: scaleY(0);
+  transform-origin: 0 0;
+  transition: .5s ease-in-out;
+  line-height: 30px;
+  padding: 0 15px;
+}
+.submenu1 a {
+  color: white;
+  font-size: 17px;
+  border-bottom: 1px solid rgba(255,255,255,.1);
+}
+.submenu1 li:last-child a { border-bottom: none; }
+.topmenu > li:hover .submenu1 {
+  opacity: 1;
+  transform: scaleY(1);
+}
+/*ниже для Login*/
+submenu-link2:after {
+  content: "";
+  font-family: FreeMono, monospace;
+  color: inherit;
+  margin-left: 15px;
+}
+.submenu2 {
+  background: gray;
+  position: relative;
+  left: 15%;
+  top: 100%;
+  z-index: 5;
+  width: 90px;
+  opacity: 0;
+  transform: scaleY(0);
+  transform-origin: 0 0;
+  transition: .5s ease-in-out;
+  line-height: 30px;
+  padding: 0 15px;
+}
+.submenu2 a {
+  color: white;
+  font-size: 17px;
+  border-bottom: 1px solid rgba(255,255,255,.1);
+}
+.submenu2 li:last-child a { border-bottom: none; }
+.topmenu > li:hover .submenu2 {
+  opacity: 1;
+  transform: scaleY(1);
+}
+	#intro1 {
+		text-align: center;
+		font-family: FreeMono, monospace;
+		font-size: 400%;
+	}
+	.olive {
+    float:left; /* Выравнивание по левому краю */
+    margin: 7px 7px 7px 0; /* Отступы вокруг картинки */
+    position: relative;
+	}
+	.summary {
+		font-family: FreeMono, monospace;
+	}
+	.preamble {
+		font-family: FreeMono, monospace;
+		box-sizing: border-box;
+		padding-bottom: 390px;
+	}
+	p:first-letter {
+		font-family: "Times New Roman", Times, serif; 
+		font-size: 150%; 
+		color: green; 
+	}
+	#footer {
+    position: static;
+    text-align: center;
+    left: 0; bottom: 0; /* Левый нижний угол */
+    padding: 10px; /* Поля вокруг текста */
+    background: darkgrey; /* Цвет фона */
+    color: whitesmoke; /* Цвет текста */
+   }
+   .social-icon {
+   	width: 20px;
+   	position: relative;
+   	top: 3px;
+   	line-height: 30px;
+  padding: 0 5px;
+   }
