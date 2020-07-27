@@ -2,37 +2,68 @@
 <html>
 <head>
 	<meta charset="utf-8"> 
+	<meta name="viewport" content="width=device-width; initial-scale=1.0">
 	<title> PlantCrossing© </title>
 	<link rel="shortcut icon" href="./pict/favicon.ico" type="image/x-icon"> 
-	<link rel="stylesheet" href="style.css"
+	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="./font-awesome/css/font-awesome.min.css">
 </head>
 <body>
-	<section>
 		<div class="navigation">
 			<nav>
       <ul class="topmenu">
-        <li><a href="">Home</a></li>
-        <li><a href="" class="submenu-link1">Start PlantCrossing</a>
+        <li class="menu__item"><a href="">Home</a></li>
+        <li class="menu__item"><a href="" class="submenu-link1">Start PlantCrossing</a>
           <ul class="submenu1">
-            <li><a href="">Home plants</a></li>
-            <li><a href="">Garden plants</a></li>
-            <li><a href="">Seeds</a></li>
+            <li class="menu__item"><a href="">Home plants</a></li>
+            <li class="menu__item"><a href="">Garden plants</a></li>
+            <li class="menu__item"><a href="">Seeds</a></li>
           </ul>
         </li>
-        <li><a href="">About us</a></li>
-        <li><a href="" class="submenu-link2">Log In</a>
+        <li class="menu__item"><a href="">About us</a></li>
+        <li class="menu__item"><a href="" class="submenu-link2">Log In</a>
         <ul class="submenu2">
-            <li><a href="">Register</a></li>
+            <li class="menu__item"><a href="">Register</a></li>
           </ul>
           </li>
       </ul>
     </nav>
-		</div>
+		</div id="mobile" class="dropdown">
+	<script> /* Когда пользователь нажимает на кнопку,
+переключение между скрытием и отображением раскрывающегося содержимого */
+function myFunction() {
+  document.getElementById("myDropdown").classList.toggle("show");
+}
+
+// Закройте выпадающее меню, если пользователь щелкает за его пределами
+window.onclick = function(event) {
+  if (!event.target.matches('.dropbtn')) {
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+}
+</script>
+  <button onclick="myFunction()" class="dropbtn" value="Menu"><i class="fa fa-bars" aria-hidden="true"></i>&nbsp;<strong>Menu</strong></button>
+  <div id="myDropdown" class="dropdown-content">
+  	<a href="#"><i class="fa fa-home" aria-hidden="true"></i>&nbsp;Home</a>
+  	<a href="#"><i class="fa fa-user-circle-o" aria-hidden="true"></i>&nbsp;Login</a>
+    <a href="#"><i class="fa fa-pagelines" aria-hidden="true"></i>&nbsp;Start PlantCrossing</a>
+    <a href="#"><i class="fa fa-newspaper-o" aria-hidden="true"></i>&nbsp;News</a>
+    <a href="#"><i class="fa fa-users" aria-hidden="true"></i>&nbsp;About us</a>
+  </div>
+</div>
+<section>
 		<header>
-	<h1 id="intro1"> Welcome to PlantCrossing<font size=7><strong><sup>©</sup></strong></font> <br>
-	<font size=6 color="green"><strong>[first plant sharing community]</strong></font></h1>
+	<h1 id="intro1"> Welcome to PlantCrossing<strong><sup>©</sup></strong><br>
+	<font color="green">[first plant sharing community]</font></h1>
 	</header>
-	<div> <img class="olive" width=500px align=left src = "./pict/olive.jpg"> </div>
+	<div> <img class="olive" src = "./pict/olive.jpg"> </div>
 		<div class="summary" id="plant-text1" role="article">
 			<h3>Lorem ipsum</h3>
 			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
@@ -45,7 +76,7 @@
 	</section>
 	<div id="footer">
 	<footer>
-    Follow us on social networks:<a href=""><img src="./pict/inst.png" class="social-icon"></a> <a href=""><img src="./pict/twit.png" class="social-icon"></a> <a href=""><img src="./pict/pin.png" class="social-icon"></a>
+    Follow us on social networks:<p class="icons"><a href="" class="social-icon"><i class="fa fa-instagram" aria-hidden="true"></i></a>  <a href="" class="social-icon"><i class="fa fa-pinterest-p" aria-hidden="true"></i></a>  <a href="" class="social-icon"><i class="fa fa-twitter-square" class="social-icon" aria-hidden="true"></i></a></p>
   </footer>
 </div>
 </body>

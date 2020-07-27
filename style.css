@@ -1,12 +1,14 @@
 body {
-		background-color: whitesmoke;
-		min-height: 100%;
-	}
-	.navigation {
-		font-family: FreeMono, monospace;
-		background-color: darkgrey;
-		height: 50px;
-	}
+    background-color: whitesmoke;
+    margin: 0px;
+  }
+  .navigation {
+    font-family: FreeMono, monospace;
+    background-color: darkgrey;
+    height: 50px;
+    width: 100%;
+    margin-bottom: 15px;
+  }
 nav {
   display: table;
   margin: 0 auto;
@@ -29,7 +31,8 @@ nav ul {
   text-align: center;
   font-size: 18px;
   font-weight: bold;
-  color: black;
+  color: whitesmoke;
+  text-decoration: none; 
   padding: 5px 50px;
 }
 .topmenu li a:hover { color: palegoldenrod; }
@@ -57,6 +60,7 @@ nav ul {
   color: white;
   font-size: 17px;
   border-bottom: 1px solid rgba(255,255,255,.1);
+  text-decoration: none;
 }
 .submenu1 li:last-child a { border-bottom: none; }
 .topmenu > li:hover .submenu1 {
@@ -88,47 +92,152 @@ submenu-link2:after {
   color: white;
   font-size: 17px;
   border-bottom: 1px solid rgba(255,255,255,.1);
+  text-decoration: none;
 }
 .submenu2 li:last-child a { border-bottom: none; }
 .topmenu > li:hover .submenu2 {
   opacity: 1;
   transform: scaleY(1);
 }
-	#intro1 {
-		text-align: center;
-		font-family: FreeMono, monospace;
-		font-size: 400%;
-	}
-	.olive {
+    #intro1 {
+    text-align: center;
+    font-family: FreeMono, monospace;
+    font-size: 45px;
+    margin-top: 0vw;
+  }
+  .olive {
+    width: 55%;
     float:left; /* Выравнивание по левому краю */
-    margin: 7px 7px 7px 0; /* Отступы вокруг картинки */
+    margin: 7px 7px 7px 7px; /* Отступы вокруг картинки */
     position: relative;
-	}
-	.summary {
-		font-family: FreeMono, monospace;
-	}
-	.preamble {
-		font-family: FreeMono, monospace;
-		box-sizing: border-box;
-		padding-bottom: 390px;
-	}
-	p:first-letter {
-		font-family: "Times New Roman", Times, serif; 
-		font-size: 150%; 
-		color: green; 
-	}
-	#footer {
+  }
+  .summary {
+    font-family: FreeMono, monospace;
+    margin: 0px 7px 0px 7px;
+  }
+  .preamble {
+    font-family: FreeMono, monospace;
+    box-sizing: border-box;
+    padding-bottom: 390px;
+    margin: 0px 7px 0px 7px;
+  }
+  p:first-letter {
+    font-family: "Times New Roman", Times, serif; 
+    font-size: 150%; 
+    color: green; 
+  }
+  #footer {
     position: static;
     text-align: center;
     left: 0; bottom: 0; /* Левый нижний угол */
     padding: 10px; /* Поля вокруг текста */
     background: darkgrey; /* Цвет фона */
     color: whitesmoke; /* Цвет текста */
+    font-family: FreeMono, monospace;
    }
-   .social-icon {
-   	width: 20px;
-   	position: relative;
-   	top: 3px;
-   	line-height: 30px;
-  padding: 0 5px;
+   .icons {
+    margin-top: 5px;
+    margin-bottom: 0px;
+    position: relative;
    }
+   i {
+    text-decoration: none;
+    color: whitesmoke;
+   }
+   div #mobile {
+    visibility: hidden;
+   }
+   .dropbtn {
+    visibility: hidden;
+   }
+   #myDropdown {
+    visibility: hidden;
+   }
+
+   @media screen and (min-width: 0px) and (max-width: 850px) {
+    .navigation {
+   visibility: hidden;
+   display: none;
+  }
+  #intro1 {
+    text-align: center;
+    font-family: FreeMono, monospace;
+    font-size: 18px;
+    margin-top: 4vw;
+    margin-bottom: : 2vw;
+  }
+  .summary {
+    font-size: 14px;
+    font-family: FreeMono, monospace;
+    margin: 0px 7px 0px 7px;
+  }
+  .preamble {
+    font-family: FreeMono, monospace;
+    padding-bottom: 45px;
+    font-size: 14px;
+    margin: 0px 7px 0px 7px;
+  }
+
+  #mobile {
+    visibility: visible;
+    position: static;
+    float: left;
+  }
+  div #mobile {
+    visibility: visible;
+   }
+   .dropbtn {
+    visibility: visible;
+   }
+   #myDropdown {
+    visibility: visible;
+   }
+  .menu__item {
+    visibility: hidden;
+  }
+  .dropbtn {
+  background-color: darkgrey;
+  color: whitesmoke;
+  padding: 16px;
+  font-size: 25px;
+  font-family: FreeMono, monospace;
+  width: 100vw;
+  border: none;
+  cursor: pointer;
+}
+.dropbtn:hover {
+  background-color: darkgrey;
+} 
+.dropdown {
+  position: static;
+  display: inline-block;
+  margin: 1vw 1vw 1vw 1vw;
+}
+.dropdown-content {
+  display: none;
+  position: relative;
+  background-color: whitesmoke;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  font-family: FreeMono, monospace;
+  text-align: center;
+  width: 100vw;
+  margin-bottom: 2vw;
+}
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  border: 0.5px solid silver;
+}
+.dropdown-content a:hover {background-color: lightgrey} 
+.show {display:block;} 
+.olive {
+    width: 60%;
+    height: auto;
+    float:left; /* Выравнивание по левому краю */
+    margin: 7px 7px 7px 7px; /* Отступы вокруг картинки */
+    position: relative;
+  }
+} 
