@@ -5,13 +5,14 @@ PORT = int(os.getenv("PORT", 8000))
 print(PORT)
 class MyHandler(SimpleHTTPRequestHandler):
     def do_GET(self):
-        content = """
+        content = f"""
         <!DOCTYPE HTML>
         <html>
         <head>
-        <title> </title>
+        <title>PlantCrossing</title>
         </head>
         <body><strong>Hello Stranger! How are you?</strong></body>
+        <p>PATH: {self.path} </p>
         </html>
         """
 
