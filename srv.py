@@ -13,11 +13,10 @@ class MyHandler(SimpleHTTPRequestHandler):
         self.send_header("Cache-Control", "no-cache")
 
     def handle_root(self):
-        self.send_response(404)
-        root = open("index.html", "r")
+        open("index.html", "r")
+        print(open("index.html", "r"))
         self.send_response(404)
         self.main_headers()
-        self.wfile.write(root.encode())
         self.send_header("Content-length", str(len("index.html")))
 
     def handle_hello(self):
@@ -30,7 +29,7 @@ class MyHandler(SimpleHTTPRequestHandler):
                 </style>
                 </head>
                 <body>
-                <h1><align = center>Webcite Creator Info</align></h1>
+                <h1><align = center>Website Creator Info</align></h1>
                 <h2>Mulik Alina Yur'evna</h2>
                 </body>
                 <p>PATH: {self.path} </p>
