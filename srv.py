@@ -4,36 +4,20 @@ from http.server import SimpleHTTPRequestHandler
 
 PORT = int(os.getenv("PORT", 8000))
 print(PORT)
-# cache-controls:
-cc = "Cache-control"
-nc = "Cache-Control:no-cache, no-store"
-pubc = "Cache-Control:public, max-age=600"
-privc = "Cache-Control:private, max-age=600"
-# content-headers:
-ct = "Content-type"
-plain = "text/plain"
-html = "text/html"
-gif = "image/gif"
-jpeg = "image/jpeg"
 
 class MyHandler(SimpleHTTPRequestHandler):
-    def content_header(self):
-        self.send_header()
 
-    def cache_control(self):
-        self.send_headers()
-
-    def main_headers(self):
+    def main_headers_html(self):
+        self.send_headers("Content-type", "text/html")
+        self.send_header("Cache-Control", "no-cache")
         self.send_header("Content-length", str(len()))
-        self.wfile.write(().encode())
 
     def handle_root(self):
         self.send_response(404)
         root = open("index.html", 'r')
         self.send_response(404)
-        self.content_header(ct, html)
-        self.cache_control(cc, privc)
         self.main_headers(root)
+        self.wfile.write(root.encode())
 
     def handle_hello(self):
         content = f"""
@@ -52,9 +36,8 @@ class MyHandler(SimpleHTTPRequestHandler):
                 </html>
                 """
         self.send_response(200)
-        self.content_header(ct, html)
-        self.cache_control(cc, privc)
         self.main_headers(content)
+        self.wfile.write(content.encode())
 
     def handle_404(self):
         self.send_response(404)
@@ -73,9 +56,8 @@ class MyHandler(SimpleHTTPRequestHandler):
                 </html>
                 """
         self.send_response(404)
-        self.content_header(ct, html)
-        self.cache_control(cc, privc)
         self.main_headers(msg)
+        self.wfile.write(msg.encode())
 
     def respond(self, code):
         pass
