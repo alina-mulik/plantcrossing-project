@@ -8,19 +8,19 @@ print(PORT)
 class MyHandler(SimpleHTTPRequestHandler):
 
     def main_headers(self):
-        self.send_headers("Content-type", "text/html")
-        self.send_header("Cache-Control", "no-cache")
-        self.send_header("Content-length", str(len()))
+        self.send_header("Content-type", "text/html")
+        self.send_header("Cache-Control", "no-cache")  
 
     def handle_root(self):
         self.send_response(404)
-        root = open("index.html", 'r')
+        root = open("index.html", "r")
         self.send_response(404)
-        self.main_headers(root)
+        self.main_headers()
         self.wfile.write(root.encode())
+        self.send_header("Content-length", str(len(root)))
 
     def handle_hello(self):
-        content = f"""
+        content: str = f"""
                 <!DOCTYPE HTML>
                 <html>
                 <head>
@@ -36,8 +36,9 @@ class MyHandler(SimpleHTTPRequestHandler):
                 </html>
                 """
         self.send_response(200)
-        self.main_headers(content)
+        self.main_headers()
         self.wfile.write(content.encode())
+        self.send_header("Content-length", str(len(content)))
 
     def handle_404(self):
         self.send_response(404)
@@ -56,8 +57,9 @@ class MyHandler(SimpleHTTPRequestHandler):
                 </html>
                 """
         self.send_response(404)
-        self.main_headers(msg)
+        self.main_headers()
         self.wfile.write(msg.encode())
+        self.send_header("Content-length", str(len(msg)))
 
     def respond(self, code):
         pass
