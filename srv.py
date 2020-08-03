@@ -16,7 +16,6 @@ html = "text/html"
 gif = "image/gif"
 jpeg = "image/jpeg"
 
-
 class MyHandler(SimpleHTTPRequestHandler):
     def content_header(self):
         self.send_header()
@@ -65,14 +64,11 @@ class MyHandler(SimpleHTTPRequestHandler):
                 <head>
                 <title>PlantCrossing</title>
                 <style type="text/css"> 
-                #cactus {
-        width: 40%;
-                }
                 </style>
                 </head>
                 <body>
                 <h1><align = center> Ooops, something went wrong. Perhaps, you meant <a href = "https://plantcrossing.herokuapp.com/">plantcrossing.herokuapp.com</a>?</align></h1>
-                <p><align = center><img id ="cactus" src="./pict/cactus.jpg></align></p>
+                <p><align = center><img src="./pict/cactus.jpgid ="cactus" width=45%></align></p>
                 </body>
                 </html>
                 """
@@ -85,6 +81,7 @@ class MyHandler(SimpleHTTPRequestHandler):
         pass
 
     def built_path(self):
+        path = self.built_path()
         result = self.path
         if self.path[-1] != "/":
             result = f"{result}/"
@@ -92,7 +89,6 @@ class MyHandler(SimpleHTTPRequestHandler):
             pass
 
     def do_GET(self):
-        path = self.built_path()
         if self.path == "/":
             self.handle_root()
         elif self.path == "/hello/":
