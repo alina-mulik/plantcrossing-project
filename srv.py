@@ -1,23 +1,25 @@
 import os
 import socketserver
 from http.server import SimpleHTTPRequestHandler
+from typing import TextIO
 
 PORT = int(os.getenv("PORT", 8000))
 print(PORT)
+
 
 class MyHandler(SimpleHTTPRequestHandler):
 
     def main_headers(self):
         self.send_header("Content-type", "text/html")
-        self.send_header("Cache-Control", "no-cache")  
+        self.send_header("Cache-Control", "no-cache")
 
     def handle_root(self):
         self.send_response(404)
-        root = open("index.html", "r")
+        root: TextIO = open("index.html", "r")
         self.send_response(404)
         self.main_headers()
         self.wfile.write(root.encode())
-        self.send_header("Content-length", str(len(root)))
+        self.send_header("Content-length", str(len("index.html")))
 
     def handle_hello(self):
         content: str = f"""
@@ -51,7 +53,8 @@ class MyHandler(SimpleHTTPRequestHandler):
                 </style>
                 </head>
                 <body>
-                <h1><align = center> Ooops, something went wrong. Perhaps, you meant <a href = "https://plantcrossing.herokuapp.com/">plantcrossing.herokuapp.com</a>?</align></h1>
+                <h1><align = center> Ooops, something went wrong. Perhaps, you meant 
+<a href = "https://plantcrossing.herokuapp.com/">plantcrossing.herokuapp.com</a>?</align></h1> 
                 <p><align = center><img src="./pict/cactus.jpgid ="cactus" width=45%></align></p>
                 </body>
                 </html>
