@@ -7,7 +7,7 @@ print(PORT)
 
 class MyHandler(SimpleHTTPRequestHandler):
 
-    def main_headers_html(self):
+    def main_headers(self):
         self.send_headers("Content-type", "text/html")
         self.send_header("Cache-Control", "no-cache")
         self.send_header("Content-length", str(len()))
