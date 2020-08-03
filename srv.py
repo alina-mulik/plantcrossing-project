@@ -1,7 +1,6 @@
 import os
 import socketserver
 from http.server import SimpleHTTPRequestHandler
-from typing import TextIO
 
 PORT = int(os.getenv("PORT", 8000))
 print(PORT)
@@ -15,7 +14,7 @@ class MyHandler(SimpleHTTPRequestHandler):
 
     def handle_root(self):
         self.send_response(404)
-        root: TextIO = open("index.html", "r")
+        root = open("index.html", "r")
         self.send_response(404)
         self.main_headers()
         self.wfile.write(root.encode())
