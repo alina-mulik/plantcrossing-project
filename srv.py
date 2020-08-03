@@ -4,32 +4,24 @@ from http.server import SimpleHTTPRequestHandler
 
 PORT = int(os.getenv("PORT", 8000))
 print(PORT)
-
+# cache-controls:
 cc = "Cache-control"
 nc = "Cache-Control:no-cache, no-store"
 pubc = "Cache-Control:public, max-age=600"
 privc = "Cache-Control:private, max-age=600"
-
+# content-headers:
 ct = "Content-type"
 plain = "text/plain"
 html = "text/html"
 gif = "image/gif"
 jpeg = "image/jpeg"
 
+
 class MyHandler(SimpleHTTPRequestHandler):
     def content_header(self):
-        ct = "Content-type"
-        plain = "text/plain"
-        html = "text/html"
-        gif = "image/gif"
-        jpeg = "image/jpeg"
         self.send_header()
 
     def cache_control(self):
-        cc = "Cache-control"
-        nc = "Cache-Control:no-cache, no-store"
-        pubc = "Cache-Control:public, max-age=600"
-        privc = "Cache-Control:private, max-age=600"
         self.send_headers()
 
     def main_headers(self):
@@ -38,7 +30,7 @@ class MyHandler(SimpleHTTPRequestHandler):
 
     def handle_root(self):
         self.send_response(404)
-        root = ("index.html")
+        root = open("index.html", 'r')
         self.send_response(404)
         self.content_header(ct, html)
         self.cache_control(cc, privc)
@@ -74,7 +66,7 @@ class MyHandler(SimpleHTTPRequestHandler):
                 <title>PlantCrossing</title>
                 <style type="text/css"> 
                 #cactus {
-                    width: 40%;
+        width: 40%;
                 }
                 </style>
                 </head>
@@ -100,7 +92,7 @@ class MyHandler(SimpleHTTPRequestHandler):
             pass
 
     def do_GET(self):
-        path = self.build_path()
+        path = self.built_path()
         if self.path == "/":
             self.handle_root()
         elif self.path == "/hello/":
