@@ -13,11 +13,11 @@ class MyHandler(SimpleHTTPRequestHandler):
         self.send_header("Cache-Control", "no-cache")
 
     def handle_root(self):
-        open("index.html", "r")
-        print(open("index.html", "r"))
+        platcrossing = open("index.html", "r")
         self.send_response(404)
         self.main_headers()
         self.send_header("Content-length", str(len("index.html")))
+        self.wfile.write(platcrossing.encode())
 
     def handle_hello(self):
         content: str = f"""
@@ -32,7 +32,7 @@ class MyHandler(SimpleHTTPRequestHandler):
                 <h1><align = center>Website Creator Info</align></h1>
                 <h2>Mulik Alina Yur'evna</h2>
                 </body>
-                <p>PATH: {self.path} </p>
+                <p>24 years old</p>
                 </html>
                 """
         self.send_response(200)
@@ -74,6 +74,7 @@ class MyHandler(SimpleHTTPRequestHandler):
             pass
 
     def do_GET(self):
+        path = self.built_path()
         if self.path == "/":
             self.handle_root()
         elif self.path == "/hello/":
@@ -84,5 +85,5 @@ class MyHandler(SimpleHTTPRequestHandler):
 
 if __name__ == "__main__":
     with socketserver.TCPServer(("", PORT), MyHandler) as httpd:
-        print("it" + " works")
+        print("it works")
         httpd.serve_forever(poll_interval=1)
