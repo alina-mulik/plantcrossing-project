@@ -5,14 +5,14 @@ print(PORT)
 
 CACHE_AGE = 60 * 60 * 24
 
-STATIC_URL = '/static/', '/font-awesome/', '/pict/'
+STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
     "static/style.css",
     "static/login.css",
-    "pict/olive.jpg",
-    "pict/favicon.ico",
-    "pict/cactus.jpg",
-    "font-awesome/css/font-awesome.css",
-    "font-awesome.min.css",
+    "static/pict/olive.jpg",
+    "static/pict/favicon.ico",
+    "static/pict/cactus.jpg",
+    "static/font-awesome/css/font-awesome.min.css"
+
 ]
