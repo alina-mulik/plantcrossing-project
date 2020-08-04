@@ -1,6 +1,7 @@
 import os
 import socketserver
 from http.server import SimpleHTTPRequestHandler
+import settings
 
 PORT = int(os.getenv("PORT", 8000))
 print(PORT)
@@ -8,16 +9,18 @@ print(PORT)
 
 class MyHandler(SimpleHTTPRequestHandler):
 
-    def main_headers(self):
-        self.send_header("Content-type", "text/html")
-        self.send_header("Cache-Control", "no-cache")
+    def do_GET(self):
+        path = self.build_path()
+
+        if path == "/":
+            self.handle_root()
+        elif path == "/hello/":
+            self.handle_hello()
+        else:
+            self.handle_404()
 
     def handle_root(self):
-        platcrossing = open("index.html", "r")
-        self.send_response(404)
-        self.main_headers()
-        self.send_header("Content-length", str(len("index.html")))
-        self.wfile.write(platcrossing.encode())
+        return super().do_GET()
 
     def handle_hello(self):
         content: str = f"""
@@ -32,16 +35,12 @@ class MyHandler(SimpleHTTPRequestHandler):
                 <h1><align = center>Website Creator Info</align></h1>
                 <h2>Mulik Alina Yur'evna</h2>
                 </body>
-                <p>24 years old</p>
+                <p>Age: 24 years old<br> Position: QA engineer at ITechArt Group</p>
                 </html>
                 """
-        self.send_response(200)
-        self.main_headers()
-        self.wfile.write(content.encode())
-        self.send_header("Content-length", str(len(content)))
+        self.respond(content)
 
     def handle_404(self):
-        self.send_response(404)
         msg = f"""
                 <!DOCTYPE HTML>
                 <html>
@@ -53,34 +52,27 @@ class MyHandler(SimpleHTTPRequestHandler):
                 <body>
                 <h1><align = center> Ooops, something went wrong. Perhaps, you meant 
 <a href = "https://plantcrossing.herokuapp.com/">plantcrossing.herokuapp.com</a>?</align></h1> 
-                <p><align = center><img src="./pict/cactus.jpgid ="cactus" width=45%></align></p>
+                <p><align = center><img src="./pict/cactus.jpg id ="cactus" width=45%></align></p>
                 </body>
                 </html>
                 """
-        self.send_response(404)
-        self.main_headers()
-        self.wfile.write(msg.encode())
-        self.send_header("Content-length", str(len(msg)))
+        self.respond(msg, code=404, content_type="text/html")
 
-    def respond(self, code):
-        pass
+    def respond(self, message, code=200, content_type="text/html"):
+        self.send_response(code)
+        self.send_header("Content-type", content_type)
+        self.send_header("Content-length", str(len(message)))
+        self.send_header("Cache-control", f"max-age={settings.CACHE_AGE}")
+        self.end_headers()
+        self.wfile.write(message.encode())
 
-    def built_path(self):
-        path = self.built_path()
+    def build_path(self) -> str:
         result = self.path
-        if self.path[-1] != "/":
-            result = f"{result}/"
-        else:
-            pass
 
-    def do_GET(self):
-        path = self.built_path()
-        if self.path == "/":
-            self.handle_root()
-        elif self.path == "/hello/":
-            self.handle_hello()
-        else:
-            self.handle_404()
+        if result[-1] != "/":
+            result = f"{result}/"
+
+        return result
 
 
 if __name__ == "__main__":
