@@ -35,7 +35,7 @@ class MyHandler(SimpleHTTPRequestHandler):
                 <h1><align = center>Website Creator Info</align></h1>
                 <h2>Mulik Alina Yur'evna</h2>
                 </body>
-                <p>Age: 24 years old<br> Position: QA engineer at ITechArt Group</p>
+                <p>Age: 24 years old<br> Position: QA engineer at ITechArt Groupпш</p>
                 </html>
                 """
         self.respond(content)
