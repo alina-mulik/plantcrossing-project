@@ -5,10 +5,14 @@ verify_ssl = true
 
 [dev-packages]
 httpie = "*"
+pytest = "*"
+selenium = "*"
 
 [packages]
 django = "*"
 pudb = "*"
+utils = "*"
+fontawesome = "*"
 
 [requires]
 python_version = "3.6"
