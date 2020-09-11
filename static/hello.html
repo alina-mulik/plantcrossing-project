@@ -63,15 +63,26 @@ window.onclick = function(event) {
 	<font color="green">[first plant sharing community]</font></h1>
 	</header>
 	<div> <img class="olive" src = "/pict/olive.jpg"> </div>
-		<div class="summary" id="plant-text1" role="article">
-			<h3>Lorem ipsum</h3>
-			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-		</div>
+		<body>
+<h1>Hello {{name_saved}}!</h1>
+<h1>You was born at {{year}}!</h1>
 
-		<div class="preamble" id="plant-text2" role="article">
-			<h3>Lorem ipsum</h3>
-			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-		</div>		
+<div class="f">
+  <form action="/hello-update" method="post">
+    <div class="g">
+      <p><label class="{{class_for_name}}" for="name-id" style="grid-area: gi-name-label">{{label_for_name}}</label>
+      <input id="name-id" name="name" style="grid-area: gi-name-input" type="text" value="{{name_new}}">
+
+      </br><label class="{{class_for_age}}" for="age-id" style="grid-area: gi-age-label">{{label_for_age}}</label>
+      <input id="age-id" name="age" style="grid-area: gi-age-input" type="text" value="{{age_new}}">
+
+      </br><button id="greet-button-id" style="grid-area: gi-submit" type="submit">Greet</button></p>
+    </div>
+  </form>
+</div>
+
+</body>
+</html>
 	</section>
 	<div id="footer">
 	<footer>

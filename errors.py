@@ -1,2 +1,6 @@
-class NotFound(Exception):
+class NotFound(RuntimeError):
+    pass
+
+
+class MethodNotAllowed(RuntimeError):
     pass

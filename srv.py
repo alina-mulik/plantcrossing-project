@@ -1,94 +1,133 @@
 import traceback
-from datetime import datetime
+from datetime import date
 from http.server import SimpleHTTPRequestHandler
-import settings
-from custom_types import Url
+from jinja2 import Template
+from consts import CSS_CLASS_ERROR
+from consts import USERS_DATA
+from custom_types import HttpRequest
+from custom_types import User
+from errors import MethodNotAllowed
 from errors import NotFound
-from utils import get_content_type
-from utils import get_user_data
 from utils import read_static
 from utils import to_bytes
+from utils import to_str
 
 
 class MyHttp(SimpleHTTPRequestHandler):
     def do_GET(self):
-        url = Url.from_path(self.path)
-        content_type = get_content_type(url.file_name)
+        self.dispatch("get")
+
+    def do_POST(self):
+        self.dispatch("post")
+
+    def dispatch(self, http_method):
+        req = HttpRequest.from_path(self.path, method=http_method)
+
         endpoints = {
-            "/": [self.handle_root, []],
-            "/hello/": [self.handle_hello, [url]],
-            "/style/": [self.handle_static, [f"style/{url.file_name}", content_type]],
-            "/pict/": [self.handle_static, [f"pict/{url.file_name}", content_type]],
-            "/css/": [self.handle_icons, [f"css/{url.file_name}", content_type]],
+            "/": [self.handle_static, ["index.html", "text/html"]],
+            "/hello/": [self.handle_hello, [req]],
+            "/hello-update/": [self.handle_hello_update, [req]],
+            "/style/": [self.handle_static, [f"style/{req.file_name}", req.content_type]],
+            "/pict/": [self.handle_static, [f"pict/{req.file_name}", req.content_type]],
+            "/css/": [self.handle_static, [f"css/{req.file_name}", req.content_type]],
         }
         try:
-            handler, args = endpoints[url.normal]
+            try:
+                handler, args = endpoints[req.normal]
+            except KeyError:
+                raise NotFound
             handler(*args)
-        except (KeyError, NotFound):
+        except NotFound:
             self.handle_404()
+        except MethodNotAllowed:
+            self.handle_405()
         except Exception:
             self.handle_500()
 
-    def handle_static(self, file_path, ct):
-        content = read_static(file_path)
-        self.respond(content, content_type=ct)
+    def handle_hello(self, request: HttpRequest):
+        if request.method != "get":
+            raise MethodNotAllowed
 
-    def handle_root(self):
-        return super().do_GET()
+        query = self.load_user_data()
+        user = User.build(query)
 
-    def handle_500(self):
-        self.respond(traceback.format_exc(), code=500, content_type="text/plain")
-
-    def handle_icons(self):
-        icons_file = settings.STATIC_DIR / "font-awesome" / "css" / "font-awesome.min.css"
-        with icons_file.open("r") as fp:
-            icons = fp.read()
-
-        self.respond(icons, content_type="text/css")
-
-    def handle_hello(self, url):
-        user = get_user_data(url.query_string)
-        year = datetime.now().year - user.age
-
-        content = f"""
-        <html>
-        <head><title>Study Project Z33 :: Hello</title></head>
-        <body>
-        <h1>Hello {user.name}!</h1>
-        <h1>You was born at {year}!</h1>
-        <p>path: {self.path}</p>
-
-        <form>
-            <label for="name-id">Your name:</label>
-            <input type="text" name="name" id="name-id">
-            <label for="age-id">Your age:</label>
-            <input type="text" name="age" id="age-id">
-            <button type="submit" id="greet-button-id">Greet</button>
-        </form>
-
-        </body>
-        </html>
-        """
+        content = self.render_hello_page(user, user)
 
         self.respond(content)
 
+    def handle_hello_update(self, request: HttpRequest):
+        if request.method != "post":
+            raise MethodNotAllowed
+
+        form_data = self.get_form_data()
+        new_user = User.build(form_data)
+
+        if not new_user.errors:
+            self.save_user_data(form_data)
+            self.redirect("/hello")
+            return
+
+        saved_data = self.load_user_data()
+        saved_user = User.build(saved_data)
+
+        hello_page = self.render_hello_page(new_user, saved_user)
+
+        self.respond(hello_page)
+
+    def render_hello_page(self, new_user: User, saved_user: User) -> str:
+        css_class_for_name = css_class_for_age = ""
+        label_for_name = "Your name: "
+        label_for_age = "Your age: "
+
+        age_new = age_saved = saved_user.age
+        name_new = name_saved = saved_user.name
+
+        year = date.today().year - age_saved
+
+        if new_user.errors:
+            if "name" in new_user.errors:
+                error = new_user.errors["name"]
+                label_for_name = f"ERROR: {error}"
+                css_class_for_name = CSS_CLASS_ERROR
+
+            if "age" in new_user.errors:
+                error = new_user.errors["age"]
+                label_for_age = f"ERROR: {error}"
+                css_class_for_age = CSS_CLASS_ERROR
+
+            name_new = new_user.name
+            age_new = new_user.age
+
+        html = read_static("hello.html").decode()
+        template = Template(html)
+
+        context = {
+            "age_new": age_new or "",
+            "label_for_age": label_for_age,
+            "label_for_name": label_for_name,
+            "name_new": name_new or "",
+            "name_saved": name_saved or "",
+            "class_for_age": css_class_for_age,
+            "class_for_name": css_class_for_name,
+            "year": year,
+        }
+        content = template.render(**context)
+        return content
+
+    def handle_static(self, file_path, content_type):
+        content = read_static(file_path)
+        self.respond(content, content_type=content_type)
+
     def handle_404(self):
-        msg = f"""
-                    <!DOCTYPE HTML>
-                    <html>
-                    <head>
-                    <title>PlantCrossing</title>
-                    <style type="text/css"> 
-                    </style>
-                    </head>
-                    <body>
-                    <h1><align = center> Ooops, something went wrong. Perhaps, you meant 
-    <a href = "https://plantcrossing.herokuapp.com/">plantcrossing.herokuapp.com</a>?</align></h1> 
-                    <p><align = center><img src="/static/pict/cactus.jpg" id ="cactus" width=45%></align></p>
-                    </body>
-                    </html>
-                    """
-        self.respond(msg, code=404, content_type="text/html")
+        msg = """OOOPS, SOMETHING WENT WRONG..."""
+        self.respond(msg, code=404, content_type="text/plain")
+
+    def handle_405(self):
+        self.respond("", code=405, content_type="text/plain")
+
+    def handle_500(self):
+        msg = traceback.format_exc()
+        self.respond(msg, code=500, content_type="text/plain")
 
     def respond(self, message, code=200, content_type="text/html"):
         payload = to_bytes(message)
@@ -96,8 +135,39 @@ class MyHttp(SimpleHTTPRequestHandler):
         self.send_response(code)
         self.send_header("Content-type", content_type)
         self.send_header("Content-length", str(len(payload)))
-        self.send_header("Cache-control", f"max-age={settings.CACHE_AGE}")
         self.end_headers()
         self.wfile.write(payload)
 
+    def redirect(self, to):
+        self.send_response(302)
+        self.send_header("Location", to)
+        self.end_headers()
 
+    def get_form_data(self) -> str:
+        content_length_as_str = self.headers.get("content-length", 0)
+        content_length = int(content_length_as_str)
+
+        if not content_length:
+            return ""
+
+        payload_as_bytes = self.rfile.read(content_length)
+        payload = to_str(payload_as_bytes)
+
+        return payload
+
+    @staticmethod
+    def load_user_data() -> str:
+        if not USERS_DATA.is_file():
+            return ""
+
+        with USERS_DATA.open("r") as src:
+            data = src.read()
+
+        data = to_str(data)
+
+        return data
+
+    @staticmethod
+    def save_user_data(data: str) -> None:
+        with USERS_DATA.open("w") as dst:
+            dst.write(data)

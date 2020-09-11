@@ -1,21 +1,31 @@
+import mimetypes
 from itertools import takewhile
 from typing import NamedTuple
 from typing import Optional
+from typing import Union
+from urllib.parse import parse_qs
 from urllib.parse import urlsplit
 
+from validators import validate_age
+from validators import validate_name
 
-class Url(NamedTuple):
+
+class HttpRequest(NamedTuple):
     original: str
     normal: str
+    method: str = "get"
     file_name: Optional[str] = None
     query_string: Optional[str] = None
+    content_type: Optional[str] = "text/html"
 
     @classmethod
-    def from_path(cls, path: str) -> "Url":
-        if not path:
-            from consts import ROOT_URL
+    def default(cls):
+        return HttpRequest(original="", normal="/")
 
-            return ROOT_URL
+    @classmethod
+    def from_path(cls, path: str, method: Optional[str] = None) -> "HttpRequest":
+        if not path:
+            return cls.default()
 
         components = urlsplit(path)
 
@@ -28,15 +38,66 @@ class Url(NamedTuple):
         last = segments[-1] if segments else ""
         file_name = last if "." in last else None
 
-        return Url(
-            original=path,
-            normal=normal,
+        content_type, _ = mimetypes.guess_type(file_name or "index.html")
+
+        return HttpRequest(
+            content_type=content_type,
             file_name=file_name,
+            method=method or "get",
+            normal=normal,
+            original=path,
             query_string=components.query or None,
         )
 
 
 class User(NamedTuple):
-    name: str
-    age: int
+    errors: Optional[dict] = None
 
+    name: Optional[str] = None
+    age: Union[str, int, None] = None
+
+    @classmethod
+    def default(cls):
+        name = "anonymous"
+        age = 0
+        return User(
+            age=age,
+            name=name,
+        )
+
+    @classmethod
+    def build(cls, query: str) -> "User":
+        anonymous = cls.default()
+
+        try:
+            key_value_pairs = parse_qs(query, strict_parsing=True)
+        except ValueError:
+            return anonymous
+
+        name_values = key_value_pairs.get("name", [None])
+        name = name_values[0]
+
+        age_values = key_value_pairs.get("age", [None])
+        age = age_values[0]
+
+        errors = {}
+
+        validations = [
+            ("name", validate_name, name),
+            ("age", validate_age, age),
+        ]
+
+        for field, validation, value in validations:
+            try:
+                validation(value)
+            except ValueError as error:
+                errors[field] = str(error)
+
+        if "age" not in errors:
+            age = int(age)
+
+        return User(
+            age=age,
+            name=name,
+            errors=errors,
+        )
