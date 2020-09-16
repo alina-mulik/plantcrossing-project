@@ -27,6 +27,7 @@ class MyHttp(SimpleHTTPRequestHandler):
             "/": [self.handle_static, ["index.html", "text/html"]],
             "/hello/": [self.handle_hello, [req]],
             "/hello-update/": [self.handle_hello_update, [req]],
+            "/red-button/": [self.handle_red_button, [req]],
             "/style/": [self.handle_static, [f"style/{req.file_name}", req.content_type]],
             "/pict/": [self.handle_static, [f"pict/{req.file_name}", req.content_type]],
             "/css/": [self.handle_static, [f"css/{req.file_name}", req.content_type]],
@@ -47,7 +48,7 @@ class MyHttp(SimpleHTTPRequestHandler):
     def handle_hello(self, request: HttpRequest):
         if request.method != "get":
             raise MethodNotAllowed
-
+        # session = self.get_session()
         query = self.load_user_data()
         user = User.build(query)
 
@@ -73,6 +74,15 @@ class MyHttp(SimpleHTTPRequestHandler):
         hello_page = self.render_hello_page(new_user, saved_user)
 
         self.respond(hello_page)
+
+    def handle_red_button(self, request: HttpRequest):
+        if request.method != "post":
+            raise MethodNotAllowed
+
+        with USERS_DATA.open("w") as dst:
+            dst.write("")
+
+        self.redirect("/hello/")
 
     def render_hello_page(self, new_user: User, saved_user: User) -> str:
         css_class_for_name = css_class_for_age = ""
