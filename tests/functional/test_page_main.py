@@ -1,8 +1,7 @@
 import pytest
 
 
-@pytest.mark.xfail
 def test(chrome):
     chrome.get("http://localhost:8000/")
-    assert "XXX" in chrome.title
-    assert "YYY" in chrome.page_source
+    assert "PlantCrossing" in chrome.title
+    assert "Welcome to PlantCrossing" in chrome.page_source

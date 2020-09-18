@@ -5,7 +5,8 @@
 	<meta name="viewport" content="width=device-width; initial-scale=1.0">
 	<title> PlantCrossing© </title>
 	<link rel="shortcut icon" href="/pict/favicon.ico" type="image/png">
-	<link rel="stylesheet" type="text/css" href="/style/style.css">
+	<link rel="stylesheet" type="text/css" href="/style/style_hello.css">
+    <link href="/style/theme_{{ theme }}.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 		<div class="navigation">
@@ -70,19 +71,19 @@ window.onclick = function(event) {
 <div class="f">
   <form action="/hello-update" method="post">
     <div class="g">
-      <p><label class="{{class_for_name}}" for="name-id" style="grid-area: gi-name-label">{{label_for_name}}</label>
-      <input id="name-id" name="name" style="grid-area: gi-name-input" type="text" value="{{name_new}}">
+      </br><label class="{{class_for_name}}" for="name-id" style="grid-area: gi-name-label">{{label_for_name}}</label>
+     <br> <input id="name-id" name="name" style="grid-area: gi-name-input" type="text" value="{{name_new}}">
 
       </br><label class="{{class_for_age}}" for="age-id" style="grid-area: gi-age-label">{{label_for_age}}</label>
-      <input id="age-id" name="age" style="grid-area: gi-age-input" type="text" value="{{age_new}}">
+      </br><input id="age-id" name="age" style="grid-area: gi-age-input" type="text" value="{{age_new}}">
 
-      </br><button id="greet-button-id" style="grid-area: gi-submit" type="submit">Greet</button></p>
+      <p><button id="greet-button-id" style="grid-area: gi-submit" type="submit">Greet</button></p>
     </div>
   </form>
     <p><form action="/red-button" method="post"><button id="red-button" style="grid-area: gi-submit" type="submit">Don't push me!</button></form></p>
-
-</body>
-</html>
+    <p class="last"><form method="post" action="/theme">
+  <button type="submit">Switch theme</button>
+</form></p>
 	</section>
 	<div id="footer">
 	<footer>

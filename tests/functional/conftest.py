@@ -1,19 +1,38 @@
 import pytest
 import time
-from selenium import webdriver
+import pytest
 
+import settings
+from consts import USERS_DATA
+from tests.functional.utils import build_chrome
+
+
+@pytest.yield_fixture(scope="session", autouse=True)
+def browser():
+    chrome = build_chrome()
+    yield chrome
+    chrome.close()
+    chrome.quit()
+
+
+@pytest.yield_fixture(scope="session", autouse=True)
+def main_css():
+    path = settings.STATIC_DIR / "styles" / "main.css"
+    with path.open("r") as src:
+        yield src.read()
 
 
 @pytest.yield_fixture(scope="function", autouse=True)
-def chrome():
-    chrome_options = webdriver.ChromeOptions()
-    chrome_options.add_argument("headless")
+def users_data():
+    data = ""
+    if USERS_DATA.is_file():
+        with USERS_DATA.open("r") as src:
+            data = src.read()
 
-    browser = webdriver.Chrome(options=chrome_options)
-    browser.implicitly_wait(10)
+    with USERS_DATA.open("w"):
+        pass
 
-    try:
-        yield browser
-    finally:
-        browser.close()
-        browser.quit()
+    yield
+
+    with USERS_DATA.open("w") as dst:
+        dst.write(data)
