@@ -5,15 +5,18 @@ verify_ssl = true
 
 [dev-packages]
 httpie = "*"
+pudb = "*"
 pytest = "*"
 selenium = "*"
 
 [packages]
+dj-database-url = "*"
 django = "*"
-pudb = "*"
-utils = "*"
+dynaconf = {extras = ["yaml"], version = "*"}
 fontawesome = "*"
 jinja2 = "*"
+psycopg2-binary = "*"
+whitenoise = "*"
 
 [requires]
-python_version = "3.6"
+python_version = "3.8"

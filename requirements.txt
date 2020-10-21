@@ -1,7 +1,7 @@
 asgiref==3.2.10
 certifi==2020.6.20
 chardet==3.0.4
-Django==3.0.8
+Django~=3.1.1
 httpie==2.2.0
 idna==2.10
 pudb==2019.2
@@ -12,3 +12,11 @@ requests==2.24.0
 sqlparse==0.3.1
 urllib3==1.25.10
 urwid==2.1.1
+
+dataclasses~=0.6
+dj-config-url~=0.1.1
+dynaconf~=3.1.1
+Jinja2~=2.11.2
+utils~=1.0.1
+selenium~=3.141.0
+pytest~=6.1.0
