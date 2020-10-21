@@ -26,4 +26,6 @@ trainpyton.py
 
 .pg_hba.conf.swp
 
+/config/.secrets.yml
+
 
